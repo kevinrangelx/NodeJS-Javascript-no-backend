@@ -19,6 +19,9 @@ module.exports = (app)=>{
         });   
     });
     route.post((req, res)=>{
+        
+        if (!app.utils.validator.user(app, req, res)) return false;
+
         db.insert(req.body,(err,user)=>{
             if (err){
                 app.utils.error.send(err, req, res);
@@ -26,10 +29,10 @@ module.exports = (app)=>{
                 res.status(200).json(user);
             }
         });
-    })
+    });
     let routeId = app.route('/users/:id');
     routeId.get((req, res)=>{
-        db.findOne({_id:req.params.id}).exec((err, user)=>{
+        db.findOne({_id: req.params.id}).exec((err, user)=>{
             if (err){
                 app.utils.error.send(err, req, res);
             } else {
@@ -38,7 +41,8 @@ module.exports = (app)=>{
     });
 });
     routeId.put((req, res)=>{
-        db.update({_id:req.params.id}, req.body, err=>{
+        if (!app.utils.validator.user(app, req, res)) return false;
+        db.update({_id: req.params.id}, req.body, err=>{
             if (err){
                 app.utils.error.send(err, req, res);
             } else {
