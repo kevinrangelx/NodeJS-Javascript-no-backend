@@ -9,6 +9,7 @@
   "author": "Kevin Rangel",
   "license": "ISC",
   "dependencies": {
+    "consign": "^0.1.6",
     "express": "^4.17.2"
   }
 }
